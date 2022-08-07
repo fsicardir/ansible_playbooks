@@ -1,8 +1,0 @@
-- name: server maintenance
-  hosts: all
-  tasks:
-    - name: update all packages
-      apk:
-        update_cache: true
-        upgrade: true
-

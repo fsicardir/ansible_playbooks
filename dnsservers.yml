@@ -1,0 +1,6 @@
+---
+- hosts: dnsservers
+  roles:
+    - common
+    - adguardhome
+
