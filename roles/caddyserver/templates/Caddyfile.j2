@@ -1,0 +1,25 @@
+{
+    storage file_system {
+        root /media/storage/caddy
+    }
+    dynamic_dns {
+        provider cloudflare {{ CloudflareAuthToken }}
+        domains {
+            fsicardi.ar adguard
+        }
+    }
+}
+
+tango.local, adguard.local {
+    reverse_proxy 127.0.0.1:8080
+    encode zstd gzip
+}
+
+adguard.fsicardi.ar {
+    reverse_proxy 127.0.0.1:8080
+    tls {
+        dns cloudflare {{ CloudflareAuthToken }}
+    }
+    encode zstd gzip
+}
+

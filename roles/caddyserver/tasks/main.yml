@@ -1,0 +1,31 @@
+- name: Install caddy
+  apk:
+    name: 
+      - caddy
+    update_cache: true
+    state: latest
+  register: installed_caddy
+- name: Add packages
+  ansible.builtin.command: caddy add-package github.com/caddy-dns/cloudflare github.com/mholt/caddy-dynamicdns
+  when: installed_caddy.changed
+- name: Copy config file
+  ansible.builtin.template:
+    src: Caddyfile.j2
+    dest: /etc/caddy/Caddyfile
+- name: Copy init file
+  ansible.builtin.copy:
+    src: caddy.init
+    dest: /etc/init.d/caddy
+- name: Create symlink to default runlevel
+  ansible.builtin.file:
+    src: /etc/init.d/caddy
+    dest: /etc/runlevels/default/caddy
+    state: link
+- name: Start caddy service
+  ansible.builtin.service:
+    name: caddy
+    state: started
+- name: Include init.d file in lbu persistence
+  ansible.builtin.command: lbu inc /etc/init.d/caddy
+- name: Persist lbu changes
+  ansible.builtin.command: lbu ci
