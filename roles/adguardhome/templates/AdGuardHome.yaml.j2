@@ -70,17 +70,28 @@ dns:
   parental_cache_size: 1048576
   cache_time: 30
   rewrites:
+  - domain: dns.local
+    answer: 192.168.1.36
+  - domain: dns.fsicardi.ar
+    answer: 192.168.1.36
   - domain: adguard.local
     answer: 192.168.1.36
   - domain: tango.local
     answer: 192.168.1.36
+  - domain: '*.tango.local'
+    answer: 192.168.1.36
   - domain: adguard.fsicardi.ar
     answer: 192.168.1.36
+  - domain: mate.local
+    answer: 192.168.1.44
+  - domain: '*.mate.local'
+    answer: 192.168.1.44
   blocked_services: []
   upstream_timeout: 10s
   private_networks: []
   use_private_ptr_resolvers: true
-  local_ptr_upstreams: []
+  local_ptr_upstreams:
+  - 192.168.1.1
 tls:
   enabled: false
   server_name: ""

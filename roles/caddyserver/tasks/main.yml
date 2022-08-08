@@ -27,5 +27,7 @@
     state: started
 - name: Include init.d file in lbu persistence
   ansible.builtin.command: lbu inc /etc/init.d/caddy
+- name: Include binary in lbu persistence
+  ansible.builtin.command: lbu inc /usr/sbin/caddy
 - name: Persist lbu changes
   ansible.builtin.command: lbu ci
