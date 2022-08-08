@@ -10,7 +10,7 @@
     dest: /media/storage/AdGuardHome/AdGuardHome.yaml
 - name: Install AdGuardHome
   ansible.builtin.command: /media/storage/AdGuardHome/AdGuardHome -s install
-- name: Include init.d file un lbu persistence
+- name: Include init.d file in lbu persistence
   ansible.builtin.command: lbu inc /etc/init.d/AdGuardHome
 - name: Persist lbu changes
   ansible.builtin.command: lbu ci

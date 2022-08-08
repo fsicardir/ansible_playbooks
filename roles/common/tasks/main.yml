@@ -1,4 +1,4 @@
-- name: update all packages
+- name: Update all packages
   apk:
     update_cache: true
     upgrade: true

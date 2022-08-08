@@ -1,5 +1,5 @@
-bind_host: 0.0.0.0
-bind_port: 80
+bind_host: 127.0.0.1
+bind_port: 8080
 beta_bind_port: 0
 users:
 - name: {{ AdGuardHomeUser }}
@@ -14,10 +14,10 @@ dns:
   bind_hosts:
   - 0.0.0.0
   port: 53
-  statistics_interval: 90
+  statistics_interval: 30
   querylog_enabled: true
   querylog_file_enabled: true
-  querylog_interval: 2160h
+  querylog_interval: 24h
   querylog_size_memory: 1000
   anonymize_client_ip: false
   protection_enabled: true
@@ -69,7 +69,13 @@ dns:
   safesearch_cache_size: 1048576
   parental_cache_size: 1048576
   cache_time: 30
-  rewrites: []
+  rewrites:
+  - domain: adguard.local
+    answer: 192.168.1.36
+  - domain: tango.local
+    answer: 192.168.1.36
+  - domain: adguard.fsicardi.ar
+    answer: 192.168.1.36
   blocked_services: []
   upstream_timeout: 10s
   private_networks: []
