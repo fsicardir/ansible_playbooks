@@ -1,2 +1,3 @@
 ---
+- import_playbook: metricsserver.yml
 - import_playbook: dnsserver.yml

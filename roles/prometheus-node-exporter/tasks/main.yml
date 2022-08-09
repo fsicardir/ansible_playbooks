@@ -1,0 +1,26 @@
+---
+- name: Install prometheus
+  apk:
+    name:
+      - prometheus-node-exporter
+      - prometheus-node-exporter-openrc
+    state: latest
+  notify: lbu_persist
+- name: Include node-exporter binary in lbu persistence
+  ansible.builtin.command: lbu inc /usr/bin/node-exporter
+  notify: lbu_persist
+- name: Include init file in lbu persistence
+  ansible.builtin.command: lbu inc /etc/init.d/node-exporter
+  notify: lbu_persist
+- name: Start service
+  ansible.builtin.service:
+    name: node-exporter
+    state: started
+    enabled: true
+    runlevel: default
+  notify: lbu_persist
+- name: Check if node exporter emits metrices
+  ansible.builtin.uri:
+    url: http://127.0.0.1:9100/metrics
+    method: GET
+    status_code: 200

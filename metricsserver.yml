@@ -1,8 +1,7 @@
 ---
-- hosts: dnsservers
+- hosts: metricsserver
   roles:
     - common
     - prometheus-node-exporter
-    - adguardhome
-    - caddyserver
+    - prometheus-server
 

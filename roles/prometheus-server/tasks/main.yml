@@ -1,0 +1,43 @@
+---
+- name: Install prometheus
+  apk:
+    name:
+      - prometheus
+      - prometheus-openrc
+    state: latest
+  notify: lbu_persist
+- name: Include prometheus binary in lbu persistence
+  ansible.builtin.command: lbu inc /usr/bin/prometheus
+  notify: lbu_persist
+- name: Include promtool binary in lbu persistence
+  ansible.builtin.command: lbu inc /usr/bin/promtool
+  notify: lbu_persist
+- name: Include init file in lbu persistence
+  ansible.builtin.command: lbu inc /etc/init.d/prometheus
+  notify: lbu_persist
+- name: Copy conf file
+  ansible.builtin.copy:
+    src: conf.d.prometheus
+    dest: /etc/conf.d/prometheus
+  notify: lbu_persist
+- name: Create data directory
+  ansible.builtin.file:
+    path: /media/storage/prometheus/data
+    state: directory
+- name: Copy config file
+  ansible.builtin.template:
+    src: prometheus.yml.j2
+    dest: /etc/prometheus/prometheus.yml
+  notify: lbu_persist
+- name: Start service
+  ansible.builtin.service:
+    name: prometheus
+    state: started
+    enabled: true
+    runlevel: default
+  notify: lbu_persist
+- name: Check if prometheus is accessible
+  ansible.builtin.uri:
+    url: http://localhost:9090
+    method: GET
+    status_code: 200
