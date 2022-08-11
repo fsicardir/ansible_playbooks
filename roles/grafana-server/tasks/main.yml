@@ -1,0 +1,34 @@
+---
+- name: Install grafana
+  apk:
+    name:
+      - grafana
+      - grafana-openrc
+    state: latest
+  notify: lbu_persist
+- name: Include grafana-server binary in lbu persistence
+  ansible.builtin.command: lbu inc /usr/sbin/grafana-server
+  notify: lbu_persist
+- name: Include grafana-cli binary in lbu persistence
+  ansible.builtin.command: lbu inc /usr/bin/grafana-cli
+  notify: lbu_persist
+- name: Include init file in lbu persistence
+  ansible.builtin.command: lbu inc /etc/init.d/grafana
+  notify: lbu_persist
+- name: Copy conf file
+  ansible.builtin.copy:
+    src: conf.d.grafana
+    dest: /etc/conf.d/grafana
+  notify: lbu_persist
+- name: Start and enable service
+  ansible.builtin.service:
+    name: grafana
+    state: started
+    enabled: true
+    runlevel: default
+  notify: lbu_persist
+- name: Check if grafana is accessible
+  ansible.builtin.uri:
+    url: http://localhost:3000
+    method: GET
+    status_code: 200
