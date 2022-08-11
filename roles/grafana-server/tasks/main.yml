@@ -6,9 +6,33 @@
       - grafana-openrc
     state: latest
   notify: lbu_persist
+- name: Copy grafana-server binary to storage
+  ansible.builtin.copy:
+    remote_src: true
+    src: /usr/sbin/grafana-server
+    dest: /media/storage/binaries/
+    mode: +x
+- name: Link grafana-server binary to original path
+  ansible.builtin.file:
+    src: /media/storage/binaries/grafana-server
+    dest: /usr/sbin/grafana-server
+    force: true
+    state: link
 - name: Include grafana-server binary in lbu persistence
   ansible.builtin.command: lbu inc /usr/sbin/grafana-server
   notify: lbu_persist
+- name: Copy grafana-cli binary to storage
+  ansible.builtin.copy:
+    remote_src: true
+    src: /usr/bin/grafana-cli
+    dest: /media/storage/binaries/
+    mode: +x
+- name: Link grafana-cli binary to original path
+  ansible.builtin.file:
+    src: /media/storage/binaries/grafana-cli
+    dest: /usr/bin/grafana-cli
+    force: true
+    state: link
 - name: Include grafana-cli binary in lbu persistence
   ansible.builtin.command: lbu inc /usr/bin/grafana-cli
   notify: lbu_persist
