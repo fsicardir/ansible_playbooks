@@ -16,15 +16,12 @@
   ansible.builtin.copy:
     src: caddy.init
     dest: /etc/init.d/caddy
-- name: Create symlink to default runlevel
-  ansible.builtin.file:
-    src: /etc/init.d/caddy
-    dest: /etc/runlevels/default/caddy
-    state: link
 - name: Start caddy service
   ansible.builtin.service:
     name: caddy
     state: started
+    enabled: true
+    runlevel: default
 - name: Include init.d file in lbu persistence
   ansible.builtin.command: lbu inc /etc/init.d/caddy
 - name: Include binary in lbu persistence
