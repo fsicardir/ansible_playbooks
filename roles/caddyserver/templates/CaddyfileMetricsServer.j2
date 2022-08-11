@@ -1,0 +1,23 @@
+{
+    storage file_system {
+        root /media/storage/caddy
+    }
+}
+
+grafana.local {
+    reverse_proxy 127.0.0.1:3000
+    encode zstd gzip
+}
+
+grafana.fsicardi.ar {
+    reverse_proxy 127.0.0.1:3000
+    tls {
+        dns cloudflare {{ CloudflareAuthToken }}
+    }
+    encode zstd gzip
+}
+
+http://caddy.{{ inventory_hostname }} {
+    metrics /metrics
+}
+

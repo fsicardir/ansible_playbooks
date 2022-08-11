@@ -5,4 +5,7 @@
     - prometheus-node-exporter
     - prometheus-server
     - grafana-server
+    - caddyserver
+  vars:
+    CaddyfileTemplateSrc: CaddyfileMetricsServer.j2
 

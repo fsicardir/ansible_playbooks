@@ -10,7 +10,7 @@
   when: installed_caddy.changed
 - name: Copy config file
   ansible.builtin.template:
-    src: Caddyfile.j2
+    src: "{{ CaddyfileTemplateSrc }}"
     dest: /etc/caddy/Caddyfile
 - name: Copy init file
   ansible.builtin.copy:
