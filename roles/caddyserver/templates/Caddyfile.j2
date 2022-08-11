@@ -23,3 +23,7 @@ adguard.fsicardi.ar {
     encode zstd gzip
 }
 
+http://caddy.{{ inventory_hostname }} {
+    metrics /metrics
+}
+
