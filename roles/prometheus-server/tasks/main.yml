@@ -6,9 +6,33 @@
       - prometheus-openrc
     state: latest
   notify: lbu_persist
+- name: Copy prometheus binary to storage
+  ansible.builtin.copy:
+    remote_src: true
+    src: /usr/bin/prometheus
+    dest: /media/storage/binaries/
+    mode: +x
+- name: Link grafana-server binary to original path
+  ansible.builtin.file:
+    src: /media/storage/binaries/prometheus
+    dest: /usr/bin/prometheus
+    force: true
+    state: link
 - name: Include prometheus binary in lbu persistence
   ansible.builtin.command: lbu inc /usr/bin/prometheus
   notify: lbu_persist
+- name: Copy promtool binary to storage
+  ansible.builtin.copy:
+    remote_src: true
+    src: /usr/bin/promtool
+    dest: /media/storage/binaries/
+    mode: +x
+- name: Link promtool binary to original path
+  ansible.builtin.file:
+    src: /media/storage/binaries/promtool
+    dest: /usr/bin/promtool
+    force: true
+    state: link
 - name: Include promtool binary in lbu persistence
   ansible.builtin.command: lbu inc /usr/bin/promtool
   notify: lbu_persist
