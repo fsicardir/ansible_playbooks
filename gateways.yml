@@ -1,9 +1,7 @@
 ---
-- hosts: dnsservers
+- hosts: gateways
   roles:
     - common
     - prometheus-node-exporter
     - adguardhome
     - caddyserver
-  vars:
-    CaddyfileTemplateSrc: CaddyfileDnsServer.j2

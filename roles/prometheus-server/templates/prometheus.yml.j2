@@ -50,7 +50,7 @@ scrape_configs:
   follow_redirects: true
   enable_http2: true
   static_configs:
-{% for host in groups['dnsservers'] %}
+{% for host in groups['caddyservers'] %}
   - targets: ['caddy.{{ host }}']
     labels:
       node: {{ host }}

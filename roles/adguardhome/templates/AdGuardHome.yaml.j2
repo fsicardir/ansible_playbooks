@@ -70,22 +70,20 @@ dns:
   parental_cache_size: 1048576
   cache_time: 30
   rewrites:
-  - domain: dns.local
-    answer: 192.168.1.36
-  - domain: dns.fsicardi.ar
-    answer: 192.168.1.36
-  - domain: adguard.local
-    answer: 192.168.1.36
-  - domain: tango.local
-    answer: 192.168.1.36
-  - domain: '*.tango.local'
-    answer: 192.168.1.36
+{% for host in groups['all'] %}
+  - domain: {{ host }}
+    answer: {{ hostvars[host]['ansible_host'] }}
+  - domain: '*.{{ host }}'
+    answer: {{ hostvars[host]['ansible_host'] }}
+{% endfor %}
+{% for host in groups['gateways'] %}
   - domain: adguard.fsicardi.ar
-    answer: 192.168.1.36
-  - domain: mate.local
-    answer: 192.168.1.44
-  - domain: '*.mate.local'
-    answer: 192.168.1.44
+    answer: {{ hostvars[host]['ansible_host'] }}
+{% endfor %}
+{% for host in groups['metricsservers'] %}
+  - domain: grafana.fsicardi.ar
+    answer: {{ hostvars[host]['ansible_host'] }}
+{% endfor %}
   blocked_services: []
   upstream_timeout: 10s
   private_networks: []
@@ -145,7 +143,10 @@ filters:
   name: Online Malicious URL Blocklist
   id: 1651482436
 whitelist_filters: []
-user_rules: []
+user_rules:
+- '||www.googleadservices.com^$important'
+- '@@||t.co^$important'
+- ""
 dhcp:
   enabled: false
   interface_name: ""
