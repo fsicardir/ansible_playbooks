@@ -6,39 +6,49 @@
       - prometheus-openrc
     state: latest
   notify: lbu_persist
+  register: prometheus_install
 - name: Copy prometheus binary to storage
   ansible.builtin.copy:
     remote_src: true
     src: /usr/bin/prometheus
     dest: /media/storage/binaries/
     mode: +x
-- name: Link grafana-server binary to original path
+    force: true
+  when: prometheus_install.changed
+- name: Link prometheus binary to original path
   ansible.builtin.file:
     src: /media/storage/binaries/prometheus
     dest: /usr/bin/prometheus
     force: true
     state: link
+  when: prometheus_install.changed
 - name: Include prometheus binary in lbu persistence
   ansible.builtin.command: lbu inc /usr/bin/prometheus
   notify: lbu_persist
+  when: prometheus_install.changed
 - name: Copy promtool binary to storage
   ansible.builtin.copy:
     remote_src: true
     src: /usr/bin/promtool
     dest: /media/storage/binaries/
     mode: +x
+    force: true
+  when: prometheus_install.changed
 - name: Link promtool binary to original path
   ansible.builtin.file:
     src: /media/storage/binaries/promtool
     dest: /usr/bin/promtool
     force: true
     state: link
+  when: prometheus_install.changed
 - name: Include promtool binary in lbu persistence
   ansible.builtin.command: lbu inc /usr/bin/promtool
   notify: lbu_persist
+  when: prometheus_install.changed
 - name: Include init file in lbu persistence
   ansible.builtin.command: lbu inc /etc/init.d/prometheus
   notify: lbu_persist
+  when: prometheus_install.changed
 - name: Copy conf file
   ansible.builtin.copy:
     src: conf.d.prometheus

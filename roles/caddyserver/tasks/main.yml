@@ -9,25 +9,29 @@
   ansible.builtin.command: caddy add-package github.com/caddy-dns/cloudflare github.com/mholt/caddy-dynamicdns
   when: installed_caddy.changed
   notify: lbu_persist
+- name: Include binary in lbu persistence
+  ansible.builtin.command: lbu inc /usr/sbin/caddy
+  when: installed_caddy.changed
+  notify: lbu_persist
 - name: Copy config file
   ansible.builtin.template:
     src: "{{ CaddyfileTemplateSrc }}"
     dest: /etc/caddy/Caddyfile
+  notify: lbu_persist
 - name: Copy init file
   ansible.builtin.copy:
     src: caddy.init
     dest: /etc/init.d/caddy
+  register: init_file
   notify: lbu_persist
+- name: Include init.d file in lbu persistence
+  ansible.builtin.command: lbu inc /etc/init.d/caddy
+  notify: lbu_persist
+  when: init_file.changed
 - name: Start caddy service
   ansible.builtin.service:
     name: caddy
     state: reloaded
     enabled: true
     runlevel: default
-  notify: lbu_persist
-- name: Include init.d file in lbu persistence
-  ansible.builtin.command: lbu inc /etc/init.d/caddy
-  notify: lbu_persist
-- name: Include binary in lbu persistence
-  ansible.builtin.command: lbu inc /usr/sbin/caddy
   notify: lbu_persist

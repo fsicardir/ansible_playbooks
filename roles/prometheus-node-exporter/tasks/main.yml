@@ -6,12 +6,15 @@
       - prometheus-node-exporter-openrc
     state: latest
   notify: lbu_persist
+  register: node_exporter_install
 - name: Include node-exporter binary in lbu persistence
   ansible.builtin.command: lbu inc /usr/bin/node-exporter
   notify: lbu_persist
+  when: node_exporter_install.changed
 - name: Include init file in lbu persistence
   ansible.builtin.command: lbu inc /etc/init.d/node-exporter
   notify: lbu_persist
+  when: node_exporter_install.changed
 - name: Start service
   ansible.builtin.service:
     name: node-exporter
