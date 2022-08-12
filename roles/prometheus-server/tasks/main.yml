@@ -56,7 +56,7 @@
 - name: Start service
   ansible.builtin.service:
     name: prometheus
-    state: started
+    state: reloaded
     enabled: true
     runlevel: default
   notify: lbu_persist

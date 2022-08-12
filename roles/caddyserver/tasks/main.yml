@@ -19,7 +19,7 @@
 - name: Start caddy service
   ansible.builtin.service:
     name: caddy
-    state: started
+    state: reloaded
     enabled: true
     runlevel: default
 - name: Include init.d file in lbu persistence

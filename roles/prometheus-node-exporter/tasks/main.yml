@@ -1,5 +1,5 @@
 ---
-- name: Install prometheus
+- name: Install prometheus node exporter
   apk:
     name:
       - prometheus-node-exporter
@@ -15,7 +15,7 @@
 - name: Start service
   ansible.builtin.service:
     name: node-exporter
-    state: started
+    state: restarted
     enabled: true
     runlevel: default
   notify: lbu_persist

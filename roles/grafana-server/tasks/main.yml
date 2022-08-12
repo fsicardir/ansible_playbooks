@@ -47,7 +47,7 @@
 - name: Start and enable service
   ansible.builtin.service:
     name: grafana
-    state: started
+    state: restarted
     enabled: true
     runlevel: default
   notify: lbu_persist
