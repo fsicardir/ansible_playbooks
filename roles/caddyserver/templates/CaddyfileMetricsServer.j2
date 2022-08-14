@@ -17,6 +17,19 @@ grafana.fsicardi.ar {
     encode zstd gzip
 }
 
+prometheus.local {
+    reverse_proxy 127.0.0.1:9090
+    encode zstd gzip
+}
+
+prometheus.fsicardi.ar {
+    reverse_proxy 127.0.0.1:9090
+    tls {
+        dns cloudflare {{ CloudflareAuthToken }}
+    }
+    encode zstd gzip
+}
+
 http://caddy.{{ inventory_hostname }} {
     metrics /metrics
 }
