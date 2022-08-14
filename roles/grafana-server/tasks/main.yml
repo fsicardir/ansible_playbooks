@@ -52,6 +52,11 @@
     src: conf.d.grafana
     dest: /etc/conf.d/grafana
   notify: lbu_persist
+- name: Copy grafana.ini
+  ansible.builtin.copy:
+    src: grafana.ini
+    dest: /etc/grafana.ini
+  notify: lbu_persist
 - name: Start and enable service
   ansible.builtin.service:
     name: grafana
@@ -61,6 +66,6 @@
   notify: lbu_persist
 - name: Check if grafana is accessible
   ansible.builtin.uri:
-    url: http://localhost:3000
+    url: https://grafana.fsicardi.ar
     method: GET
     status_code: 200
