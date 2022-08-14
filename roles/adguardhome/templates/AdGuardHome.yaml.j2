@@ -83,6 +83,8 @@ dns:
 {% for host in groups['metricsservers'] %}
   - domain: grafana.fsicardi.ar
     answer: {{ hostvars[host]['ansible_host'] }}
+  - domain: prometheus.fsicardi.ar
+    answer: {{ hostvars[host]['ansible_host'] }}
 {% endfor %}
   blocked_services: []
   upstream_timeout: 10s
