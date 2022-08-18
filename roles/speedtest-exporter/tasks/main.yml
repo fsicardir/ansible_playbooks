@@ -1,0 +1,34 @@
+- name: Check speedtest_exporter binary existence
+  stat:
+    path: /media/storage/speedtest_exporter/speedtest_exporter
+  register: speedtest_exporter_binary
+- name: Download speedtest_exporter
+  ansible.builtin.get_url:
+    url: 'https://github.com/nlamirault/speedtest_exporter/releases/download/v0.3.1/speedtest_exporter_0.3.1_linux_arm64.tar.gz'
+    dest: /tmp
+  when: not speedtest_exporter_binary.stat.exists
+- name: Create speedtest_exporter directory
+  ansible.builtin.file:
+    path: /media/storage/speedtest_exporter
+    state: directory
+  when: not speedtest_exporter_binary.stat.exists
+- name: Unpackage file
+  ansible.builtin.command: tar x -v -f /tmp/speedtest_exporter_0.3.1_linux_arm64.tar.gz -C /media/storage/speedtest_exporter
+  when: not speedtest_exporter_binary.stat.exists
+- name: Copy speedtest_exporter init file
+  ansible.builtin.copy:
+    src: init.d.speedtest_exporter
+    dest: /etc/init.d/speedtest_exporter
+    mode: +x
+  register: speedtest_exporter
+- name: Include init.d file in lbu persistence
+  ansible.builtin.command: lbu inc /etc/init.d/speedtest_exporter
+  when: speedtest_exporter.changed
+  notify: lbu_persist
+- name: Ensure service is started and enabled
+  ansible.builtin.service:
+    name: speedtest_exporter
+    state: restarted
+    enabled: true
+    runlevel: default
+  notify: lbu_persist
