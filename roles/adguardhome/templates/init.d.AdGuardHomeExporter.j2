@@ -1,0 +1,11 @@
+#!/sbin/openrc-run
+supervisor=supervise-daemon
+name="AdGuard Home Exporter service"
+description="AdGuard Home Exporter: expose metrics for AdGuardHome"
+command=/media/storage/AdGuardHome/AdGuardHomeExporter
+command_args="-adguard_username {{ AdGuardHomeUser }} -adguard_password {{ AdGuardHomeClearPassword }} -adguard_port 8080"
+depend() {
+        After=AdGuardHome.service
+}
+
+

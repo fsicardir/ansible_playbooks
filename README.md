@@ -14,7 +14,7 @@ Services
 * Caddy: used as reverse proxy and dynamic DNS client
 * Prometheus Node Exporter in each node to expose host metrics
 * Prometheus Server to collect metrics
-* Grafana for dashboards
+* Grafana for dashboards and alerting
 
 Run
 ---

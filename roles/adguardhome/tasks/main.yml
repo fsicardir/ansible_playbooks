@@ -28,3 +28,25 @@
   ansible.builtin.command: lbu inc /etc/init.d/AdGuardHome
   when: not adguard_binary.stat.exists
   notify: lbu_persist
+- name: Download AdguardNodeExporter
+  ansible.builtin.get_url:
+    url: 'https://github.com/ebrianne/adguard-exporter/releases/latest/download/adguard_exporter-linux-arm64'
+    dest: /media/storage/AdGuardHome/AdGuardHomeExporter
+    mode: +x
+- name: Copy AdGuardHomeExporter init file
+  ansible.builtin.template:
+    src: init.d.AdGuardHomeExporter.j2
+    dest: /etc/init.d/AdGuardHomeExporter
+    mode: +x
+  register: adguard_exporter
+- name: Include init.d file in lbu persistence
+  ansible.builtin.command: lbu inc /etc/init.d/AdGuardHomeExporter
+  when: adguard_exporter.changed
+  notify: lbu_persist
+- name: Ensure service is started and enabled
+  ansible.builtin.service:
+    name: AdGuardHomeExporter
+    state: restarted
+    enabled: true
+    runlevel: default
+  notify: lbu_persist
