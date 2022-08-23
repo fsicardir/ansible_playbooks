@@ -57,6 +57,14 @@
     src: grafana.ini
     dest: /etc/grafana.ini
   notify: lbu_persist
+- name: Copy dashboards
+  ansible.builtin.copy:
+    src: dashboards
+    dest: /media/storage/grafana
+- name: Copy grafana provisioning
+  ansible.builtin.copy:
+    src: provisioning
+    dest: /usr/share/grafana/home
 - name: Start and enable service
   ansible.builtin.service:
     name: grafana
