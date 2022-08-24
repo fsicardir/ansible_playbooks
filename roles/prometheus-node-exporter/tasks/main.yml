@@ -22,7 +22,7 @@
     enabled: true
     runlevel: default
   notify: lbu_persist
-- name: Check if node exporter emits metrices
+- name: Check if node exporter emits metrics
   ansible.builtin.uri:
     url: http://127.0.0.1:9100/metrics
     method: GET
