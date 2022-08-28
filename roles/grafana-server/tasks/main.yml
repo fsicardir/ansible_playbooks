@@ -53,8 +53,8 @@
     dest: /etc/conf.d/grafana
   notify: lbu_persist
 - name: Copy grafana.ini
-  ansible.builtin.copy:
-    src: grafana.ini
+  ansible.builtin.template:
+    src: grafana.ini.j2
     dest: /etc/grafana.ini
   notify: lbu_persist
 - name: Copy dashboards
