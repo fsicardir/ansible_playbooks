@@ -7,6 +7,20 @@ I run Alpine Linux, some parts use `apk` and `lbu`.
 
 Sensitive variables are encripted using ansible vault, I made a simple client for [`pass`](https://www.passwordstore.org), the password manager I use.
 
+
+Pre requisites
+--------------
+
+* Control node:
+    * ansible
+    * `ansible-galaxy collection install community.general`
+    * configure inventory in `hosts.yml`
+* Managed nodes:
+    * alpine linux
+    * ssh up and control node's public key in authorized\_keys
+    * python3
+
+
 Services
 --------
 
@@ -15,6 +29,7 @@ Services
 * Prometheus Server to collect metrics
 * Grafana for dashboards and alerting
 * Speedtest to measure internet speeds
+
 
 Run
 ---
