@@ -1,5 +1,0 @@
-#!/sbin/openrc-run
-supervisor=supervise-daemon
-name="Speedtest Exporter service"
-description="Speedtest Exporter: expose metrics about internet connection"
-command=/media/storage/speedtest_exporter/speedtest_exporter

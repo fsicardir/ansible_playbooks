@@ -75,13 +75,3 @@ scrape_configs:
   enable_http2: true
   static_configs:
   - targets: ['adguard.fsicardi.ar:9617']
-- job_name: speedtest-exporter
-  honor_timestamps: true
-  scrape_interval: 15m
-  scrape_timeout: 5m
-  metrics_path: /metrics
-  scheme: http
-  follow_redirects: true
-  enable_http2: true
-  static_configs:
-  - targets: ['adguard.fsicardi.ar:9112']

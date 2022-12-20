@@ -2,7 +2,6 @@
 - hosts: gateways
   roles:
     - prometheus-node-exporter
-    - speedtest-exporter
     - adguardhome
     - caddyserver
     - common
