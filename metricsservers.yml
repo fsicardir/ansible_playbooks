@@ -1,8 +1,8 @@
 ---
 - hosts: metricsservers
   roles:
-    - common
     - prometheus-node-exporter
     - prometheus-server
     - grafana-server
     - caddyserver
+    - common
